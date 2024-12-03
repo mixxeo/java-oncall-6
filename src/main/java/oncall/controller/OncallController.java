@@ -35,11 +35,16 @@ public class OncallController {
 
     private List<String> requestMembersOrder() {
         outputView.printWeekdayMembersOrderRequest();
-        String weekdayMembersOrderRequest = inputView.read();
-        List<Nickname> weekdayMembers = Arrays.stream(weekdayMembersOrderRequest.split(","))
+        MembersOrder weekdayMembersOrder = createMembersOrder(inputView.read());
+        outputView.printHolidayMembersOrderRequest();
+        MembersOrder holidayMembersOrder = createMembersOrder(inputView.read());
+    }
+
+    private MembersOrder createMembersOrder(String request) {
+        List<Nickname> members = Arrays.stream(request.split(","))
                 .map(Nickname::of)
                 .toList();
-        MembersOrder weekdayMembersOrder = MembersOrder.of(weekdayMembers);
+        return MembersOrder.of(members);
     }
 
     private <T> T requestWithRetry(SupplierWithException<T> request) {

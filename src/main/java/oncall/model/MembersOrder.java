@@ -1,5 +1,6 @@
 package oncall.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import oncall.constant.ExceptionMessage;
 
@@ -34,5 +35,9 @@ public class MembersOrder {
         if (members.size() < MIN_NUMBER_OF_MEMBERS || members.size() > MAX_NUMBER_OF_MEMBERS) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT);
         }
+    }
+
+    public List<Nickname> getMembers() {
+        return new ArrayList<>(members);
     }
 }

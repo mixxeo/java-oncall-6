@@ -1,7 +1,10 @@
 package oncall.controller;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import oncall.constant.ExceptionMessage;
 import oncall.model.MembersOrder;
 import oncall.model.Month;
 import oncall.model.Nickname;
@@ -38,6 +41,7 @@ public class OncallController {
         MembersOrder weekdayMembersOrder = createMembersOrder(inputView.read());
         outputView.printHolidayMembersOrderRequest();
         MembersOrder holidayMembersOrder = createMembersOrder(inputView.read());
+        validateMembers(weekdayMembersOrder, holidayMembersOrder);
     }
 
     private MembersOrder createMembersOrder(String request) {
@@ -45,6 +49,15 @@ public class OncallController {
                 .map(Nickname::of)
                 .toList();
         return MembersOrder.of(members);
+    }
+
+    private void validateMembers(MembersOrder weekdayMembersOrder, MembersOrder holidayMembersOrder) {
+        Set<Nickname> weekdayMembers = new HashSet<>(weekdayMembersOrder.getMembers());
+        Set<Nickname> holidayMembers = new HashSet<>(holidayMembersOrder.getMembers());
+
+        if (!weekdayMembers.containsAll(holidayMembers)) {
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT);
+        }
     }
 
     private <T> T requestWithRetry(SupplierWithException<T> request) {

@@ -1,5 +1,6 @@
 package oncall.model;
 
+import java.util.Objects;
 import oncall.constant.ExceptionMessage;
 
 public record Nickname(String name) {
@@ -14,5 +15,22 @@ public record Nickname(String name) {
         if (name.length() > MAX_LENGTH) {
             throw new IllegalArgumentException(ExceptionMessage.INVALID_INPUT);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Nickname nickname = (Nickname) o;
+        return Objects.equals(name, nickname.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

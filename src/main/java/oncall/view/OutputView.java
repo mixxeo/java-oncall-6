@@ -18,11 +18,11 @@ public class OutputView {
     }
 
     public void printWeekdayMembersOrderRequest() {
-        System.out.println(WEEKDAY_MEMBERS_ORDER_REQUEST);
+        System.out.print(WEEKDAY_MEMBERS_ORDER_REQUEST);
     }
 
     public void printHolidayMembersOrderRequest() {
-        System.out.println(HOLIDAY_MEMBERS_ORDER_REQUEST);
+        System.out.print(HOLIDAY_MEMBERS_ORDER_REQUEST);
     }
 
     public void printOncallScheduler(WorkMonth workMonth, List<Nickname> scheduler) {

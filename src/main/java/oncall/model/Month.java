@@ -42,4 +42,8 @@ public enum Month {
     public boolean isHoliday(int date) {
         return holidays.contains(date);
     }
+
+    public int getNumber() {
+        return number;
+    }
 }

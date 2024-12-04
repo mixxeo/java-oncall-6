@@ -44,4 +44,8 @@ public enum DayOfWeek {
     private int getNextOrder() {
         return (order % DAYS_OF_A_WEEK) + 1;
     }
+
+    public String getKorean() {
+        return korean;
+    }
 }

@@ -63,6 +63,7 @@ public class OncallController {
             scheduler.add(assignedMember);
             dayOfWeek = dayOfWeek.getNextDay();
         }
+        outputView.printOncallScheduler(workMonth, scheduler);
     }
 
     private <T> T requestWithRetry(SupplierWithException<T> request) {

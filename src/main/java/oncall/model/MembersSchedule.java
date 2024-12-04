@@ -9,12 +9,16 @@ public class MembersSchedule {
     private final MembersOrder holidayMembersOrder;
     private int weekdayCursor;
     private int holidayCursor;
+    private boolean isWeekdaySubstituted;
+    private boolean isHolidaySubstituted;
 
     private MembersSchedule(MembersOrder weekdayMembersOrder, MembersOrder holidayMembersOrder) {
         this.weekdayMembersOrder = weekdayMembersOrder;
         this.holidayMembersOrder = holidayMembersOrder;
-        this.weekdayCursor = -1;
-        this.holidayCursor = -1;
+        this.weekdayCursor = 0;
+        this.holidayCursor = 0;
+        this.isWeekdaySubstituted = false;
+        this.isHolidaySubstituted = false;
     }
 
     public static MembersSchedule from(MembersOrder weekdayMembersOrder, MembersOrder holidayMembersOrder) {
@@ -33,17 +37,33 @@ public class MembersSchedule {
 
     public Nickname assignMember(WorkMonth workMonth, DayOfWeek dayOfWeek, int date) {
         if (dayOfWeek.isHoliday() || workMonth.isHoliday(date)) {
+            Nickname member = holidayMembersOrder.getMembers().get(holidayCursor);
             holidayCursor = holidayMembersOrder.getNextIndex(holidayCursor);
-            return holidayMembersOrder.getMembers().get(holidayCursor);
+            if (isHolidaySubstituted) {
+                holidayCursor = holidayMembersOrder.getNextIndex(holidayCursor);
+                isHolidaySubstituted = false;
+            }
+            return member;
         }
-        weekdayCursor = holidayMembersOrder.getNextIndex(weekdayCursor);
-        return weekdayMembersOrder.getMembers().get(weekdayCursor);
+        Nickname member = weekdayMembersOrder.getMembers().get(weekdayCursor);
+        weekdayCursor = weekdayMembersOrder.getNextIndex(weekdayCursor);
+        if (isWeekdaySubstituted) {
+            weekdayCursor = weekdayMembersOrder.getNextIndex(weekdayCursor);
+            isWeekdaySubstituted = false;
+        }
+        return member;
     }
 
     public Nickname getSubstitutedMember(WorkMonth workMonth, DayOfWeek dayOfWeek, int date) {
         if (dayOfWeek.isHoliday() || workMonth.isHoliday(date)) {
-            return holidayMembersOrder.getMembers().get(holidayMembersOrder.getNextIndex(holidayCursor));
+            Nickname member = holidayMembersOrder.getMembers().get(holidayCursor);
+            isHolidaySubstituted = true;
+            holidayCursor = holidayMembersOrder.getPreviousIndex(holidayCursor);
+            return member;
         }
-        return weekdayMembersOrder.getMembers().get(weekdayMembersOrder.getNextIndex(weekdayCursor));
+        Nickname member = weekdayMembersOrder.getMembers().get(weekdayCursor);
+        isWeekdaySubstituted = true;
+        weekdayCursor = weekdayMembersOrder.getPreviousIndex(weekdayCursor);
+        return member;
     }
 }

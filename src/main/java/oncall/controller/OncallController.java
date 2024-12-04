@@ -57,7 +57,7 @@ public class OncallController {
         DayOfWeek dayOfWeek = workMonth.startDay();
         for (int date = 1; date <= workMonth.getNumberOfDays(); date++) {
             Nickname assignedMember = membersSchedule.assignMember(workMonth, dayOfWeek, date);
-            if (!scheduler.isEmpty() && assignedMember == scheduler.getLast()) {
+            if (!scheduler.isEmpty() && assignedMember.equals(scheduler.getLast())) {
                 assignedMember = membersSchedule.getSubstitutedMember(workMonth, dayOfWeek, date);
             }
             scheduler.add(assignedMember);

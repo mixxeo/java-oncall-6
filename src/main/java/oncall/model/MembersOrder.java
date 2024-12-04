@@ -42,6 +42,10 @@ public class MembersOrder {
     }
 
     public int getNextIndex(int index) {
-        return (index % (members.size() - 1)) + 1;
+        return (index + 1) % members.size();
+    }
+
+    public int getPreviousIndex(int index) {
+        return (index - 1 + members.size()) % members.size();
     }
 }

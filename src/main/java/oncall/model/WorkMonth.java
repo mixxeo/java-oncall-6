@@ -1,11 +1,11 @@
 package oncall.model;
 
-public class WorkMonth {
-    private final Month month;
-    private final String startDay;
+public record WorkMonth(Month month, DayOfWeek startDay) {
+    public int getNumberOfDays() {
+        return month.getNumberOfDays();
+    }
 
-    public WorkMonth(Month month, String startDay) {
-        this.month = month;
-        this.startDay = startDay;
+    public boolean isHoliday(int date) {
+        return month.isHoliday(date);
     }
 }

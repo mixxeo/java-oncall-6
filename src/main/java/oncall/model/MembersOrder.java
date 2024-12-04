@@ -40,4 +40,8 @@ public class MembersOrder {
     public List<Nickname> getMembers() {
         return new ArrayList<>(members);
     }
+
+    public int getNextIndex(int index) {
+        return (index % (members.size() - 1)) + 1;
+    }
 }

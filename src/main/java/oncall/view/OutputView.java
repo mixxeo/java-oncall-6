@@ -32,7 +32,7 @@ public class OutputView {
         while (iterator.hasNext()) {
             int date = iterator.nextIndex() + 1;
             schedules.append(String.format(SCHEDULE_FORMAT, workMonth.month().getNumber(), date,
-                    getDayOfWeek(workMonth, date, dayOfWeek), iterator.next()));
+                    getDayOfWeek(workMonth, date, dayOfWeek), iterator.next().name()));
             dayOfWeek = dayOfWeek.getNextDay();
         }
         System.out.println(schedules);
@@ -40,9 +40,9 @@ public class OutputView {
 
     private String getDayOfWeek(WorkMonth workMonth, int date, DayOfWeek dayOfWeek) {
         if (!dayOfWeek.isHoliday() && workMonth.isHoliday(date)) {
-            return dayOfWeek.getKorean();
+            return dayOfWeek.getKorean() + DAY_OF_WEEK_HOLIDAY_MARK;
         }
-        return dayOfWeek.getKorean() + DAY_OF_WEEK_HOLIDAY_MARK;
+        return dayOfWeek.getKorean();
     }
 
     public void printExceptionMessage(Exception e) {
